@@ -42,5 +42,11 @@ function stopCamera() {
     }
 }
 
-// Adiciona um evento para parar a câmera quando a janela for fechada ou recarregada
+// Adiciona eventos para parar a câmera quando a janela for fechada ou recarregada
 window.addEventListener('beforeunload', stopCamera);
+window.addEventListener('pagehide', stopCamera);
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden') {
+        stopCamera();
+    }
+});
