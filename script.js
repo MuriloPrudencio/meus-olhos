@@ -7,6 +7,9 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     .then(function(stream) {
         // Conecta o stream da câmera ao elemento de vídeo
         video.srcObject = stream;
+
+        // Salva o stream para ser usado posteriormente
+        window.localStream = stream;
     })
     .catch(function(error) {
         console.error("Erro ao acessar a câmera: ", error);
@@ -31,3 +34,13 @@ function createHeart() {
 
 // Criar corações a cada 500ms
 setInterval(createHeart, 500);
+
+// Função para parar o uso da câmera
+function stopCamera() {
+    if (window.localStream) {
+        window.localStream.getTracks().forEach(track => track.stop());
+    }
+}
+
+// Adiciona um evento para parar a câmera quando a janela for fechada ou recarregada
+window.addEventListener('beforeunload', stopCamera);
